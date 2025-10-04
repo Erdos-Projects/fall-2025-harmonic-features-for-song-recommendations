@@ -7,7 +7,7 @@ Data entries and features removed:
 4) Remove any data entries that contain less than three total chords in the chords variable
 
 New features:
-chord_dict: modifies the chords feature to turn it into a dictionary format where the keys are the sections (verse, chorus etc.) by using Iliyana's sandbox code
+chord_dict: modifies the chords feature to turn it into a dictionary format where the keys are the sections (verse, chorus etc.) by using Juan's parsing code
 num_sections: counts the total number of sections (verse, chorus, etc.) listed in the chords feature 
 tot_chords: total number of chord symbols listed in the chords feature
 tot_unique_chords: total number of unique chord symbols listed in the chords feature
