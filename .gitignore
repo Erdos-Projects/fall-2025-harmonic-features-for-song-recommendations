@@ -1,1 +1,8 @@
 chordonomicon.csv
+
+# ignore vscode files
+.DS_Store
+__pycache__
+
+# ignore pycharm files
+.idea
