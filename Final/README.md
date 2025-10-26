@@ -15,6 +15,7 @@ Cleaning steps:
 3. Remove any data entries that have NA for any of release\_date, main\_genre and spotify\_song\_id
 4. Remove any data entries that contain less than six total chords in the chords variable
 5. Remove any data entries with unknown chords
+6. Insert a "simplified chords" column, which has removed section labels, removed inversions, and switched to comma-separated
 
 Returns:
 final_train: training dataset for feature engineering
