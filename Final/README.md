@@ -2,7 +2,7 @@
 
 
 
-**final\_clean.py:**
+**final\_clean.ipynb:**
 
 Creates final cleaned train and test datasets with an 85-15 split from raw dataset sourced at https://huggingface.co/datasets/ailsntua/Chordonomicon.
 
@@ -20,6 +20,16 @@ Cleaning steps:
 Returns:
 final_train: training dataset for feature engineering
 final_test: test dataset
+
+
+
+**possible\_density\_features.ipynb:**
+
+Creates the following possible features:
+
+* unique_chord_denstiy: number of unique chords divided by total number of chords
+* unique_2gram_denstiy: number of unique 2-grams divided by total number of chords
+* unique_5gram_denstiy: number of unique 5-grams divided by total number of chords
 
 
 
