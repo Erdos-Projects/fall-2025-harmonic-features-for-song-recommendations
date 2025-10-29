@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 
 
-def run_classification_lasso(data, predictor_columns, target_column, output_path, is_binary=False, k=5):
+def run_classification_lasso(data, predictor_columns, target_column, output_path, is_binary=False, k=5, savefile=True):
     """Run Lasso (L1) classification with k-fold cross-validation and return feature importance."""
 
     # Prepare data
@@ -81,11 +81,12 @@ def run_classification_lasso(data, predictor_columns, target_column, output_path
     print(feature_importance.head(20))
 
     # Save feature importance to CSV
-    feature_selection_path = output_path / 'feature_selection'
-    feature_selection_path.mkdir(parents=True, exist_ok=True)
-    output_file = feature_selection_path / f'lasso_feature_importance_{target_column}.csv'
-    feature_importance.to_csv(output_file, index=False)
-    print(f"\nFeature importance saved to: {output_file}")
+    if savefile==True:
+        feature_selection_path = output_path / 'feature_selection'
+        feature_selection_path.mkdir(parents=True, exist_ok=True)
+        output_file = feature_selection_path / f'lasso_feature_importance_{target_column}.csv'
+        feature_importance.to_csv(output_file, index=False)
+        print(f"\nFeature importance saved to: {output_file}")
 
     # Plot feature importance
     plt.figure(figsize=(10, 6))
@@ -99,7 +100,7 @@ def run_classification_lasso(data, predictor_columns, target_column, output_path
     return feature_importance
 
 
-def run_regression_lasso(data, predictor_columns, target_column, output_path, k=5):
+def run_regression_lasso(data, predictor_columns, target_column, output_path, k=5, savefile=True):
     """Run Lasso (L1) regression with k-fold cross-validation and return feature importance."""
 
     # Prepare data
@@ -179,11 +180,12 @@ def run_regression_lasso(data, predictor_columns, target_column, output_path, k=
     print(feature_importance.head(20))
 
     # Save feature importance to CSV
-    feature_selection_path = output_path / 'feature_selection'
-    feature_selection_path.mkdir(parents=True, exist_ok=True)
-    output_file = feature_selection_path / f'lasso_feature_importance_{target_column}.csv'
-    feature_importance.to_csv(output_file, index=False)
-    print(f"\nFeature importance saved to: {output_file}")
+    if savefile==True:
+        feature_selection_path = output_path / 'feature_selection'
+        feature_selection_path.mkdir(parents=True, exist_ok=True)
+        output_file = feature_selection_path / f'lasso_feature_importance_{target_column}.csv'
+        feature_importance.to_csv(output_file, index=False)
+        print(f"\nFeature importance saved to: {output_file}")
 
     # Plot feature importance
     plt.figure(figsize=(10, 6))
