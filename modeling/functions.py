@@ -1,6 +1,7 @@
 from sklearn.dummy import DummyClassifier, DummyRegressor
 from sklearn.model_selection import cross_validate, learning_curve
-from sklearn.linear_model import LogisticRegression, Ridge
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.linear_model import Lasso, LogisticRegression, Ridge
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
@@ -24,7 +25,6 @@ def train_random_forest(X, y, cv, target_type='multiclass', n_estimators=100, ma
     Returns:
         dict: cross-validation results with metrics
     """
-    from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 
     target_type = target_type.lower()
     if target_type not in {'multiclass', 'binary', 'regression'}:
@@ -69,7 +69,7 @@ def train_random_forest(X, y, cv, target_type='multiclass', n_estimators=100, ma
         n_jobs=-1
     )
 
-    # Print results using standardized function
+    # Print results
     params_str = f"n_estimators={n_estimators}, max_depth={max_depth}, min_samples_leaf={min_samples_leaf}"
     print_cv_results(scores, "Random Forest", target_type, params_str)
 
@@ -92,9 +92,6 @@ def train_lasso(X, y, cv, target_type='multiclass', alpha=1.0, max_iter=5000, ra
     Returns:
         dict: cross-validation results with metrics
     """
-    from sklearn.linear_model import Lasso, LogisticRegression
-    from sklearn.preprocessing import StandardScaler
-    from sklearn.pipeline import Pipeline
 
     target_type = target_type.lower()
     if target_type not in {'multiclass', 'binary', 'regression'}:
@@ -138,7 +135,7 @@ def train_lasso(X, y, cv, target_type='multiclass', alpha=1.0, max_iter=5000, ra
         n_jobs=-1
     )
 
-    # Print results using standardized function
+    # Print results
     params_str = f"alpha={alpha}, max_iter={max_iter}"
     print_cv_results(scores, "Lasso", target_type, params_str)
 
@@ -207,7 +204,7 @@ def train_logistic_regression(X, y, cv, target_type='multiclass', C=1.0, penalty
         n_jobs=-1
     )
 
-    # Print results using standardized function
+    # Print results
     model_name = "Ridge Regression" if target_type == 'regression' else "Logistic Regression"
     params_str = f"C={C}, penalty={penalty}, solver={solver}" if target_type != 'regression' else f"alpha={1.0/C}"
     print_cv_results(scores, model_name, target_type, params_str)
@@ -244,7 +241,7 @@ def evaluate_dummy_baseline(X, y, cv, target_type='multiclass', target_variable=
 
     scores = cross_validate(model, X, y, cv=cv, scoring=scoring, return_train_score=False)
 
-    # Print results using standardized function
+    # Print results
     model_name = f"Dummy Baseline ({target_variable})" if target_variable else "Dummy Baseline"
     strategy = 'most_frequent' if target_type in {'multiclass', 'binary'} else 'mean'
     params_str = f"strategy={strategy}"
@@ -255,7 +252,7 @@ def evaluate_dummy_baseline(X, y, cv, target_type='multiclass', target_variable=
 
 def print_cv_results(scores, model_name, target_type, params_str=None):
     """
-    Print cross-validation results in a standardized format.
+    Print cross-validation results.
 
     Args:
         scores: dict from cross_validate
