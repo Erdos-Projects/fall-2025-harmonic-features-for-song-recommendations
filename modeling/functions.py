@@ -7,7 +7,8 @@ from sklearn.pipeline import Pipeline
 
 
 def train_random_forest(X, y, cv, target_type='multiclass', n_estimators=100, max_depth=None,
-                       min_samples_split=2, min_samples_leaf=1, random_state=42):
+                       min_samples_split=2, min_samples_leaf=1, random_state=42,
+                       class_weight=None):
     """
     Train and evaluate Random Forest with cross-validation.
 
@@ -49,7 +50,8 @@ def train_random_forest(X, y, cv, target_type='multiclass', n_estimators=100, ma
             min_samples_split=min_samples_split,
             min_samples_leaf=min_samples_leaf,
             random_state=random_state,
-            n_jobs=-1
+            n_jobs=-1,
+            class_weight=class_weight
         )
 
         if target_type == 'multiclass':
