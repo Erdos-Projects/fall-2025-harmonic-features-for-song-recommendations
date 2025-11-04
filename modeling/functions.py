@@ -8,8 +8,12 @@ from sklearn.pipeline import Pipeline
 
 def train_random_forest(X, y, cv, target_type='multiclass', n_estimators=100, max_depth=None,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                        min_samples_split=2, min_samples_leaf=1, random_state=42,
                        class_weight=None):
+=======
+                       min_samples_split=2, min_samples_leaf=1, random_state=42, print_cv = True):
+>>>>>>> Stashed changes
 =======
                        min_samples_split=2, min_samples_leaf=1, random_state=42, print_cv = True):
 >>>>>>> Stashed changes
