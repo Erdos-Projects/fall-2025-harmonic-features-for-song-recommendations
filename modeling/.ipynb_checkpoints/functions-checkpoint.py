@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline
 
 
 def train_random_forest(X, y, cv, target_type='multiclass', n_estimators=100, max_depth=None,
-                       min_samples_split=2, min_samples_leaf=1, random_state=42):
+                       min_samples_split=2, min_samples_leaf=1, random_state=42, print_cv = True):
     """
     Train and evaluate Random Forest with cross-validation.
 
@@ -57,8 +57,9 @@ def train_random_forest(X, y, cv, target_type='multiclass', n_estimators=100, ma
         else:  # binary
             scoring = ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']
 
-    print(f"\nTraining Random Forest...")
-    print(f"Cross-validation folds: {cv.get_n_splits()}")
+    if print_cv:
+        print(f"\nTraining Random Forest...")
+        print(f"Cross-validation folds: {cv.get_n_splits()}")
 
     # Perform cross-validation
     scores = cross_validate(
@@ -71,12 +72,13 @@ def train_random_forest(X, y, cv, target_type='multiclass', n_estimators=100, ma
 
     # Print results
     params_str = f"n_estimators={n_estimators}, max_depth={max_depth}, min_samples_leaf={min_samples_leaf}"
-    print_cv_results(scores, "Random Forest", target_type, params_str)
+    if print_cv:
+        print_cv_results(scores, "Random Forest", target_type, params_str)
 
     return scores
 
 
-def train_lasso(X, y, cv, target_type='multiclass', alpha=1.0, max_iter=5000, random_state=42):
+def train_lasso(X, y, cv, target_type='multiclass', alpha=1.0, max_iter=5000, random_state=42, print_cv = True):
     """
     Train and evaluate Lasso with cross-validation.
 
@@ -123,8 +125,9 @@ def train_lasso(X, y, cv, target_type='multiclass', alpha=1.0, max_iter=5000, ra
         else:  # binary
             scoring = ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']
 
-    print(f"\n📐 Training Lasso...")
-    print(f"Cross-validation folds: {cv.get_n_splits()}")
+    if print_cv:
+        print(f"\n📐 Training Lasso...")
+        print(f"Cross-validation folds: {cv.get_n_splits()}")
 
     # Perform cross-validation
     scores = cross_validate(
@@ -137,13 +140,14 @@ def train_lasso(X, y, cv, target_type='multiclass', alpha=1.0, max_iter=5000, ra
 
     # Print results
     params_str = f"alpha={alpha}, max_iter={max_iter}"
-    print_cv_results(scores, "Lasso", target_type, params_str)
+    if print_cv:
+        print_cv_results(scores, "Lasso", target_type, params_str)
 
     return scores
 
 
 def train_logistic_regression(X, y, cv, target_type='multiclass', C=1.0, penalty='l2',
-                              solver='lbfgs', max_iter=1000, random_state=42):
+                              solver='lbfgs', max_iter=1000, random_state=42, print_cv = True):
     """
     Train and evaluate logistic regression with cross-validation.
 
@@ -192,8 +196,9 @@ def train_logistic_regression(X, y, cv, target_type='multiclass', C=1.0, penalty
         else:  # binary
             scoring = ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']
 
-    print(f"\nTraining Logistic Regression/Ridge...")
-    print(f"Cross-validation folds: {cv.get_n_splits()}")
+    if print_cv:
+        print(f"\nTraining Logistic Regression/Ridge...")
+        print(f"Cross-validation folds: {cv.get_n_splits()}")
 
     # Perform cross-validation
     scores = cross_validate(
@@ -207,12 +212,14 @@ def train_logistic_regression(X, y, cv, target_type='multiclass', C=1.0, penalty
     # Print results
     model_name = "Ridge Regression" if target_type == 'regression' else "Logistic Regression"
     params_str = f"C={C}, penalty={penalty}, solver={solver}" if target_type != 'regression' else f"alpha={1.0/C}"
-    print_cv_results(scores, model_name, target_type, params_str)
+
+    if print_cv:
+        print_cv_results(scores, model_name, target_type, params_str)
 
     return scores
 
 
-def evaluate_dummy_baseline(X, y, cv, target_type='multiclass', target_variable=None, random_state=0):
+def evaluate_dummy_baseline(X, y, cv, target_type='multiclass', target_variable=None, random_state=0, print_cv =  True):
     """
     Run cross-validated dummy baseline.
     Args:
@@ -236,8 +243,9 @@ def evaluate_dummy_baseline(X, y, cv, target_type='multiclass', target_variable=
         model = DummyRegressor(strategy='mean')
         scoring = ['neg_mean_squared_error', 'r2']
 
-    print(f"\nEvaluating Dummy Baseline...")
-    print(f"Cross-validation folds: {cv.get_n_splits()}")
+    if print_cv:
+        print(f"\nEvaluating Dummy Baseline...")
+        print(f"Cross-validation folds: {cv.get_n_splits()}")
 
     scores = cross_validate(model, X, y, cv=cv, scoring=scoring, return_train_score=False)
 
@@ -245,7 +253,9 @@ def evaluate_dummy_baseline(X, y, cv, target_type='multiclass', target_variable=
     model_name = f"Dummy Baseline ({target_variable})" if target_variable else "Dummy Baseline"
     strategy = 'most_frequent' if target_type in {'multiclass', 'binary'} else 'mean'
     params_str = f"strategy={strategy}"
-    print_cv_results(scores, model_name, target_type, params_str)
+
+    if print_cv:
+        print_cv_results(scores, model_name, target_type, params_str)
 
     return scores
 
