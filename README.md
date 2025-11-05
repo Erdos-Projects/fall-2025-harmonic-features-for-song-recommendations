@@ -100,7 +100,7 @@ Holistic features are continuous numerical variables, while n-grams are discrete
   <img src="feature_engineering/feature_selection/figures/multicollinearity_holistic.png" width="500" alt="Multicollinearity Holistic" />
 </p>
 
-The Pearson correlation heatmap above of holistic variables shows that most correlations fall in the moderate (around ±0.4–0.6) or weak (below ±0.3) range, and there are no very strong correlations. 
+The Pearson correlation heatmap of the holistic variables (displayed above) shows that most correlations fall in the moderate (around ±0.4–0.6) or weak (below ±0.3) range, and there are no very strong correlations. 
 
 <p align="center">
   <img src="feature_engineering/feature_selection/figures/multicollinearity_n-grams.png" width="500" alt="Multicollinearity N-grams" />
