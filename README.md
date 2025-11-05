@@ -105,7 +105,7 @@ The Pearson correlation heatmap above of holistic variables shows that most corr
 
 The n-gram feature set contains over 100 binary variables, so a correlation heatmap would not provide a clear visualization. Instead, the histogram above shows the distribution of pairwise correlation coefficients between all n-gram features. Most correlations cluster near zero, indicating that the majority of n-gram features are weakly correlated.
 
-The notebooks performing multicollinearity analysis can be found [here for holistic features](`feature_engineering/feature_selection/2_eda_and_multicollinearity_holistic.ipynb`) and [here for n-gram features](`feature_engineering/feature_selection/2_eda_and_multicollinearity_n-grams.ipynb`).
+The notebooks performing multicollinearity analysis can be found [here for holistic features](feature_engineering/feature_selection/2_eda_and_multicollinearity_holistic.ipynb) and [here for n-gram features](feature_engineering/feature_selection/2_eda_and_multicollinearity_n-grams.ipynb).
 
 ###  Variance Thresholding
 
@@ -121,7 +121,7 @@ To assess the variability of holistic features, we applied variance thresholding
 
 The plot above shows the top 20 n-gram features ranked by variance. The highest-variance features are predominantly 3-grams, indicating that shorter chord sequences contribute more variability across the dataset than longer ones. Additionally, most of the top-variance n-grams involve the chords G and C, often in combination with each other or nearby transitions such as C-G-D. This suggests that chord progressions centered around G and C are the most variable.
 
-The notebooks performing variance thresholding can be found [here for holistic features](`feature_engineering/feature_selection/3_variance_threshold_holistic.ipynb`) and [here for n-gram features](`feature_engineering/feature_selection/3_variance_threshold_n-grams.ipynb`).
+The notebooks performing variance thresholding can be found [here for holistic features](feature_engineering/feature_selection/3_variance_threshold_holistic.ipynb) and [here for n-gram features](feature_engineering/feature_selection/3_variance_threshold_n-grams.ipynb).
 
 ### LASSO (L1) Regularization Feature Selection for Decade and Genre
 
@@ -134,7 +134,7 @@ Lasso, or Least Absolute Shrinkage and Selection Operator, uses L1 regularizatio
 
 Presented above are two plots that show the top 20 features for predicting decade and genre. We can see that the top two features are the same for both: the average overlap-4 and the fraction of chords in a song that are minor triads. The rest of the features vary where for Genre we see the holistic features as more important, and for decade we see a combination of holistic and n-gram features.
 
-The notebook performing LASSO (L1) regularization for decade and genre can be found [here](`feature_engineering/feature_selection/4_lasso_L1_regularization_main.ipynb`).
+The notebook performing LASSO (L1) regularization for decade and genre can be found [here](feature_engineering/feature_selection/4_lasso_L1_regularization_main.ipynb).
 
 ### Feature Selection for Hot 100
 
@@ -144,7 +144,7 @@ We then conducted a multi-step feature selection process on our dataset with bot
 
 The most important features for the top 100 target were mostly holistic, with drone ratio as the most important feature.
 
-The notebook performing feature selection for Hot 100 target can be found [here](`feature_engineering/feature_selection/5_high_correlations_removed.ipynb`).
+The notebook performing feature selection for Hot 100 target can be found [here](feature_engineering/feature_selection/5_high_correlations_removed.ipynb).
 
 ## Modeling
 
