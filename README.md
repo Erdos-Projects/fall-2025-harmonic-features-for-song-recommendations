@@ -150,6 +150,8 @@ The most important features for the top 100 target were mostly holistic, with dr
 
 ### Decade
 
+We trained several models on our training set to predict decade by using 5-fold stratified cross validation with grid search hyperparameter optimization and found that the most accurate model was XGBoost with 50 estimators and a max depth of 4. The out-of-fold training and test set accuracies were 43.4% and 43.5% respectively. This was only marginally better than the out-of-fold training accuracy for all the other models tested and the baseline dummy classifier which predicts the most common decade only (42.7% accuracy). Given the hamronic features we came up with, it was not possible to use this dataset to predict release decade chord progression.
+
 ### Genre
 
 We explored many models for genre, particularly focusing on $n$-gram features, but surprisingly these features did not end up being predictive for genre as much as we hoped. Compared to a baseline dummy predictor for genre with 25% accuracy, models based on 3-grams, 4-grams, and 5-grams did no better than 27% accuracy. The "best" model, reaching 28% accuracy, was a random forest with depth 5, based on 8 holistic features: min_triad_ratio, maj_triad ratio, unique_chord_density, drone_ratio, and average_Noverlap for N=2,3,4, and 5. As best we can tell, predicting genre from chord sequences, even when considering harmonic equivalence, is not feasible.  
