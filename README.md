@@ -94,13 +94,13 @@ We performed several feature selection methods, including LASSO (L1) regularizat
 Holistic features are continuous numerical variables, while n-grams are discrete binary features. Because of these different representations, we initially analyzed each feature set separately.
 
 <p align="center">
-  <img src="feature_engineering/feature_selection/figures/multicollinearity_holistic.png" width="600" alt="Multicollinearity Holistic" />
+  <img src="feature_engineering/feature_selection/figures/multicollinearity_holistic.png" width="500" alt="Multicollinearity Holistic" />
 </p>
 
 The Pearson correlation heatmap above of holistic variables shows that most correlations fall in the moderate (around ±0.4–0.6) or weak (below ±0.3) range, and there are no very strong correlations. 
 
 <p align="center">
-  <img src="feature_engineering/feature_selection/figures/multicollinearity_n-grams.png" width="600" alt="Multicollinearity N-grams" />
+  <img src="feature_engineering/feature_selection/figures/multicollinearity_n-grams.png" width="500" alt="Multicollinearity N-grams" />
 </p>
 
 The n-gram feature set contains over 100 binary variables, so a correlation heatmap would not provide a clear visualization. Instead, the histogram above shows the distribution of pairwise correlation coefficients between all n-gram features. Most correlations cluster near zero, indicating that the majority of n-gram features are weakly correlated.
@@ -110,13 +110,13 @@ The notebooks performing multicollinearity analysis can be found [here for holis
 ###  Variance Thresholding
 
 <p align="center">
-  <img src="feature_engineering/feature_selection/figures/variance_threshold_holistic.png" width="600" alt="Variance Threshold Holistic" />
+  <img src="feature_engineering/feature_selection/figures/variance_threshold_holistic.png" width="500" alt="Variance Threshold Holistic" />
 </p>
 
 To assess the variability of holistic features, we applied variance thresholding. The bar chart above shows each feature’s variance, with reference lines at thresholds of 0.01 (conservative), 0.05 (moderate), and 0.1 (aggressive). The conservative threshold removes only one feature, while the moderate and aggressive thresholds would eliminate drone ratio, which, despite its low variance, is one of the most predictive features for the top 100 target variable.
 
 <p align="center">
-  <img src="feature_engineering/feature_selection/figures/variance_threshold_n-grams.png" width="600" alt="Variance Threshold N-grams" />
+  <img src="feature_engineering/feature_selection/figures/variance_threshold_n-grams.png" width="500" alt="Variance Threshold N-grams" />
 </p>
 
 The plot above shows the top 20 n-gram features ranked by variance. The highest-variance features are predominantly 3-grams, indicating that shorter chord sequences contribute more variability across the dataset than longer ones. Additionally, most of the top-variance n-grams involve the chords G and C, often in combination with each other or nearby transitions such as C-G-D. This suggests that chord progressions centered around G and C are the most variable.
@@ -128,8 +128,8 @@ The notebooks performing variance thresholding can be found [here for holistic f
 Lasso, or Least Absolute Shrinkage and Selection Operator, uses L1 regularization, which adds a penalty based on the absolute value of each feature’s coefficient. These coefficients represent how much each feature contributes to predicting the target. By applying this penalty, Lasso pushes the coefficients of less important features toward zero. We used the resulting coefficients to create CSV files containing feature importance scores for each target variable.
 
 <p align="center">
-  <img src="feature_engineering/feature_selection/figures/lasso_decade.png" width="400" alt="LASSO Decade" />
-  <img src="feature_engineering/feature_selection/figures/lasso_genre.png" width="400" alt="LASSO Genre" />
+  <img src="feature_engineering/feature_selection/figures/lasso_decade.png" width="500" alt="LASSO Decade" />
+  <img src="feature_engineering/feature_selection/figures/lasso_genre.png" width="500" alt="LASSO Genre" />
 </p>
 
 Presented above are two plots that show the top 20 features for predicting decade and genre. We can see that the top two features are the same for both: the average overlap-4 and the fraction of chords in a song that are minor triads. The rest of the features vary where for Genre we see the holistic features as more important, and for decade we see a combination of holistic and n-gram features.
