@@ -140,7 +140,7 @@ Presented above are two plots that show the top 20 features for predicting decad
 The notebook performing LASSO (L1) regularization for our targets can be found [here](feature_engineering/feature_selection/lasso_L1_regularization_main.ipynb).
 
 ## Modeling
-We considered various classifier model options to pick what was most appropriate for each of our categorical targets (logistic regression, lasso, random forest, XGBoost). For each target, we engaged in a model selection process where we compared model performance to a baseline dummy classifier. Our model training folder for all targets can be found [here](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/tree/main/modeling). Our folder for modeling our held-out test dataset (kept completely separate from our training data to ensure no data leakage) can be found [here](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/tree/main/final_model_testing). 
+We considered various classifier model options to pick what was most appropriate for each of our categorical targets (logistic regression, lasso, random forest, XGBoost). For each target, we engaged in a model selection process where we compared model performance to a baseline dummy classifier. Our model development folder can be found [here](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/tree/main/modeling). The folder for modeling our held-out test dataset (kept completely separate from our training data to ensure no data leakage) can be found [here](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/tree/main/final_model_testing). 
 
 ## Results
 
