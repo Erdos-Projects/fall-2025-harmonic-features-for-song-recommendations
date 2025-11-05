@@ -1,6 +1,6 @@
 #                                                                             <p align="center"> Harmonic Features for Song Recommendations </p>
 
-[Google Drive for raw datasets](https://drive.google.com/drive/folders/1wQqr2Wh-QhNbvWzvqfjFSGo5dHFz1YxF?usp=drive_link)
+[Google Drive for large files produced by scripts](https://drive.google.com/drive/folders/1wQqr2Wh-QhNbvWzvqfjFSGo5dHFz1YxF?usp=drive_link)
 
 Team members: [Juan Salinas](https://github.com/juansalinas2), [Iliyana Dobreva](https://github.com/iliyanadobreva), [Joshua Ruiter](https://github.com/JoshuaRuiter), [Matthew Dykes](https://github.com/mmd266-svg), [Elizabeth Rizor](https://github.com/ejrise)
 
@@ -8,19 +8,22 @@ Team members: [Juan Salinas](https://github.com/juansalinas2), [Iliyana Dobreva]
 
 1. [Introduction](#introduction)  
 2. [Dataset Curation](#dataset-curation)  
-3. [Data Cleaning and EDA](#data-cleaning-and-EDA)  
+3. [Data Cleaning and EDA](#data-cleaning-and-eda)  
 4. [Feature Engineering](#feature-engineering) 
 5. [Feature Selection](#feature-selection) 
 5. [Modeling](#modeling)
 5. [Results](#results)  
-6. [Conclusion](#conclusion)  
-7. [Description of Repository](#description-of-repository)  
+6. [Conclusions](#conclusions)  
 
 ## Introduction
-&nbsp;&nbsp;&nbsp;&nbsp; Music has served as an important medium for human expression for tens of thousands of years. Songs can be broken down into quantifiable harmonic patterns that can signal a cultural moment in time or belonging to a specific subculture. Mapping these harmonic features to markers of cultural relevance are useful for musicians, researchers, and businesses (such as streaming platforms) who wish to better recommend songs to individuals. Because of this need, we aimed to explore how harmony shapes the sound of popular music, and determine whether harmonic "fingerprints" can accurately classify songs by genre, decade, and popularity. 
+Music has served as an important medium for human expression for tens of thousands of years. Songs can be broken down into quantifiable harmonic patterns that can signal a cultural moment in time or belonging to a specific subculture. Mapping these harmonic features to markers of cultural relevance are useful for musicians, researchers, and businesses (such as streaming platforms) who wish to better recommend songs to individuals. Because of this need, we aimed to explore how harmony shapes the sound of popular music, and determine whether harmonic "fingerprints" can accurately classify songs by genre, decade, and popularity. 
+
+**Primary KPI:** Classification accuracy (percentage of correctly classified songs) 
+
+**Secondary KPI:** F1 score (balances precision/recall) 
 
 ## Dataset Curation 
-&nbsp;&nbsp;&nbsp;&nbsp; Our primary dataset was the Chordonomicon dataset, which contains over 600,000 chord-annotated songs along with their release decade, genre, and Spotify ID. To predict popularity, we scraped Spotify current popularity metrics with each song's Spotify ID (when available). We also used the Billboard Hot 100 dataset (contains all songs on Billboard Hot 100 going back to its inception) to label whether a song had ever reached the top charts in the US. 
+Our primary dataset was the Chordonomicon dataset, which includes over 600,000 chord-annotated songs, each labeled with release decade, genre, and Spotify ID. Using the Spotify API, we retrieved track and artist names associated with each Spotify ID. We then cross-referenced these songs with the Billboard Hot 100 dataset (catalogs every track that has appeared on the U.S. charts since the list’s inception) to determine whether each song had ever been featured on the chart. 
 1. [Chordonomincon Dataset](https://huggingface.co/datasets/ailsntua/Chordonomicon)
 2. [Spotify API](https://developer.spotify.com/)
 3. [Hot 100 Dataset](https://github.com/utdata/rwd-billboard-data/blob/main/data-out/hot-100-current.csv)
@@ -46,7 +49,7 @@ We see extreme class imbalance for all decades prior to the 1950s, which have cl
 We find that a small portion of the resulting data frame (about 0.2%) consists of songs whose chord progressions contain fewer than 6 total chords (i.e. fewer than 5 chord changes). Since we plan on test chord progression-related features which are functions of sequences of up to 5 chords, we also remove these entries from the data frame. 
 
 Our final data frame is size 300,713 $\times$ (3+ # of chord progression-derived predictors)
-The notebook to get the final cleaned dataset is [here](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/tree/main/Final/final_clean.ipynb).
+The notebook to get the final cleaned dataset is [here](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/tree/main/data/final_data_cleaning).
 
 ## Feature Engineering
 
@@ -82,7 +85,7 @@ Another reason for excluding $1$-grams and $2$-grams from our features is that t
 
 * unique_5_gram_density - The number of distinct 5-grams divided by the total number of chords. Note that for the purposes of this metric, harmonically equivalent chords may still be considered distinct.
 
-The notebooks to obtain the final features can be found [here for n-gram features](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/blob/main/Final/n_gram_features.ipynb), [here for non-density holistic features](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/blob/main/Final/possible_matrix_features.ipynb), and [here for density holistic features](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/blob/main/Final/possible_density_features.ipynb). 
+The notebooks to obtain the final features can be found [here for n-gram features](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/blob/main/feature_engineering/n_gram_features.ipynb), [here for non-density holistic features](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/blob/main/feature_engineering/possible_matrix_features.ipynb), and [here for density holistic features](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/blob/main/feature_engineering/possible_density_features.ipynb). 
 
 ## Feature Selection
 
@@ -123,7 +126,7 @@ The plot above shows the top 20 n-gram features ranked by variance. The highest-
 
 The notebooks performing variance thresholding can be found [here for holistic features](feature_engineering/feature_selection/3_variance_threshold_holistic.ipynb) and [here for n-gram features](feature_engineering/feature_selection/3_variance_threshold_n-grams.ipynb).
 
-### LASSO (L1) Regularization Feature Selection for Decade and Genre
+### LASSO (L1) Regularization Feature Selection
 
 Lasso, or Least Absolute Shrinkage and Selection Operator, uses L1 regularization, which adds a penalty based on the absolute value of each feature’s coefficient. These coefficients represent how much each feature contributes to predicting the target. By applying this penalty, Lasso pushes the coefficients of less important features toward zero. We used the resulting coefficients to create CSV files containing feature importance scores for each target variable.
 
@@ -134,19 +137,20 @@ Lasso, or Least Absolute Shrinkage and Selection Operator, uses L1 regularizatio
 
 Presented above are two plots that show the top 20 features for predicting decade and genre. We can see that the top two features are the same for both: the measure of how much four sequential pairs of chords overlap in notes (average overlap-4) and the fraction of chords in a song that are minor triads (min triad ratio). The rest of the features vary where for Genre we see the holistic features as more important, and for decade we see a combination of holistic and n-gram features.
 
-The notebook performing LASSO (L1) regularization for decade and genre can be found [here](feature_engineering/feature_selection/4_lasso_L1_regularization_main.ipynb).
-
-### Feature Selection for Hot 100
-
-We first conducted a multicollinearity analysis with correlation matrices to determine whether features should be further reduced. This analysis found several features with high multicollinearity (greater than 0.7); to account for this, we ran a loop that would systematically remove features that contribute greatly to collinearity until all pairs were no longer highly correlated. 
-
-We then conducted a multi-step feature selection process on our dataset with both the full feature list and the reduced feature list. This involved variance threshold assessment, random forest feature importance, and LASSO (L1 regularization) regression with cross-validation. This initial process identified potential issues that needed to be addressed, including class imbalance of the hot_100 target and low performance of classifier models when compared to baseline (guess highest occuring class of genre and decade). Trends remained very similar whether we assessed the full or reduced feature lists.
-
-The most important features for the top 100 target were mostly holistic, with drone ratio as the most important feature.
+The notebook performing LASSO (L1) regularization for our targets can be found [here](feature_engineering/feature_selection/4_lasso_L1_regularization_main.ipynb).
 
 ## Modeling
+We considered various classifier model options to pick what was most appropriate for each of our categorical targets (logistic regression, lasso, random forest, XGBoost). For each target, we engaged in a model selection process where we compared model performance to a baseline dummy classifier. Our model training folder for all targets can be found [here](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/tree/main/modeling). Our folder for modeling our held-out test dataset (kept completely separate from our training data to ensure no data leakage) can be found [here](https://github.com/Erdos-Projects/fall-2025-harmonic-features-for-song-recommendations/tree/main/final_testing). 
+
+## Results
 
 ### Hot 100
+We explored logistic regression, lasso, and random forest models with 5-fold cross validation. The training data minority class (0 = not on Hot 100) was oversampled to address extreme class imbalance. After random forest appeared to be most promising, we performed a hyperparameter grid search to find our optimal combination of hyperparameters (max_depth limited to 10 to avoid overfitting). Decades for this analysis were limited to 1990s-2020s due to better model performance. 
+
+The best performing model (random forest) performed well with our primary KPI (~80% accuracy) when compared to the baseline model (50%). However, this model did not perform well with our secondary KPI (F1 score < 10%). These results show that the model has promise to predict whether a song was on the Hot 100, but may need further tuning to improve model precision. 
+
+<img width=600 alt="image" src="https://github.com/user-attachments/assets/d1eff9dd-1fc6-4d38-8b73-932e1079feb2" />
+
 
 ### Decade
 
@@ -158,13 +162,6 @@ We explored many models for genre, particularly focusing on $n$-gram features, b
 
 While it would be possible to create hundreds more $n$-gram feature columns with more time and computational power, our preliminary results suggest that this is unlikely to lead to better predictions for genre or popularity.
 
-## Results
-
 ## Conclusions
 
 Our targets, especially genre and decade, are not easily predictable based on the features we had access to. 
-
-## Description of Repository
-
-
-
