@@ -144,8 +144,6 @@ We then conducted a multi-step feature selection process on our dataset with bot
 
 The most important features for the top 100 target were mostly holistic, with drone ratio as the most important feature.
 
-The notebook performing feature selection for Hot 100 target can be found [here](feature_engineering/feature_selection/5_high_correlations_removed.ipynb).
-
 ## Modeling
 
 ### Hot 100
