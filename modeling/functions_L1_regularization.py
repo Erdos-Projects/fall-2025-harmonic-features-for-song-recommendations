@@ -82,7 +82,7 @@ def run_classification_lasso(data, predictor_columns, target_column, output_path
 
     # Save feature importance to CSV
     if savefile==True:
-        feature_selection_path = output_path / 'feature_selection'
+        feature_selection_path = output_path / 'feature_selection_csv'
         feature_selection_path.mkdir(parents=True, exist_ok=True)
         output_file = feature_selection_path / f'lasso_feature_importance_{target_column}.csv'
         feature_importance.to_csv(output_file, index=False)
@@ -181,7 +181,7 @@ def run_regression_lasso(data, predictor_columns, target_column, output_path, k=
 
     # Save feature importance to CSV
     if savefile==True:
-        feature_selection_path = output_path / 'feature_selection'
+        feature_selection_path = output_path / 'feature_selection_csv'
         feature_selection_path.mkdir(parents=True, exist_ok=True)
         output_file = feature_selection_path / f'lasso_feature_importance_{target_column}.csv'
         feature_importance.to_csv(output_file, index=False)
