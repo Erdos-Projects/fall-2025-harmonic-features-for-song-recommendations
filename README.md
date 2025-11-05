@@ -94,9 +94,21 @@ We then conducted a multi-step feature selection process on our dataset with bot
 
 ## Modeling
 
+### Hot 100
+
+### Decade
+
+### Genre
+
+We explored many models for genre, particularly focusing on $n$-gram features, but surprisingly these features did not end up being predictive for genre as much as we hoped. Compared to a baseline dummy predictor for genre with 25% accuracy, models based on 3-grams, 4-grams, and 5-grams did no better than 27% accuracy. The "best" model, reaching 28% accuracy, was a random forest with depth 5, based on 8 holistic features: min_triad_ratio, maj_triad ratio, unique_chord_density, drone_ratio, and average_Noverlap for N=2,3,4, and 5. As best we can tell, predicting genre from chord sequences, even when considering harmonic equivalence, is not feasible.  
+
+While it would be possible to create hundreds more $n$-gram feature columns with more time and computational power, our preliminary results suggest that this is unlikely to lead to better predictions for genre or popularity.
+
 ## Results
 
 ## Conclusions
+
+Our targets, especially genre and decade, are not easily predictable based on the features we had access to. 
 
 ## Description of Repository
 
