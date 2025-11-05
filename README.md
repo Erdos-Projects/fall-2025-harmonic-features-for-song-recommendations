@@ -88,15 +88,69 @@ The notebooks to obtain the final features can be found [here for n-gram feature
 
 Though we had already eliminated some redundant features (for example, unique 2,3,4 gram density), we then engaged in a more formal feature selection process to determine which would be most appropriate for our final model. 
 
+We performed several feature selection methods, including LASSO (L1) regularization with 5 folds, variance thresholding, and multicollinearity analysis.
+
+### Multicollinearity
+Holistic features are continuous numerical variables, while n-grams are discrete binary features. Because of these different representations, we initially analyzed each feature set separately.
+
+<p align="center">
+  <img src="feature_engineering/feature_selection/figures/multicollinearity_holistic.png" width="500" alt="Multicollinearity Holistic" />
+</p>
+
+The Pearson correlation heatmap above of holistic variables shows that most correlations fall in the moderate (around ±0.4–0.6) or weak (below ±0.3) range, and there are no very strong correlations. 
+
+<p align="center">
+  <img src="feature_engineering/feature_selection/figures/multicollinearity_n-grams.png" width="500" alt="Multicollinearity N-grams" />
+</p>
+
+The n-gram feature set contains over 100 binary variables, so a correlation heatmap would not provide a clear visualization. Instead, the histogram above shows the distribution of pairwise correlation coefficients between all n-gram features. Most correlations cluster near zero, indicating that the majority of n-gram features are weakly correlated.
+
+The notebooks performing multicollinearity analysis can be found [here for holistic features](feature_engineering/feature_selection/2_eda_and_multicollinearity_holistic.ipynb) and [here for n-gram features](feature_engineering/feature_selection/2_eda_and_multicollinearity_n-grams.ipynb).
+
+###  Variance Thresholding
+
+<p align="center">
+  <img src="feature_engineering/feature_selection/figures/variance_threshold_holistic.png" width="500" alt="Variance Threshold Holistic" />
+</p>
+
+To assess the variability of holistic features, we applied variance thresholding. The bar chart above shows each feature’s variance, with reference lines at thresholds of 0.01 (conservative), 0.05 (moderate), and 0.1 (aggressive). The conservative threshold removes only one feature, while the moderate and aggressive thresholds would eliminate drone ratio, which, despite its low variance, is one of the most predictive features for the top 100 target variable.
+
+<p align="center">
+  <img src="feature_engineering/feature_selection/figures/variance_threshold_n-grams.png" width="500" alt="Variance Threshold N-grams" />
+</p>
+
+The plot above shows the top 20 n-gram features ranked by variance. The highest-variance features are predominantly 3-grams, indicating that shorter chord sequences contribute more variability across the dataset than longer ones. Additionally, most of the top-variance n-grams involve the chords G and C, often in combination with each other or nearby transitions such as C-G-D. This suggests that chord progressions centered around G and C are the most variable.
+
+The notebooks performing variance thresholding can be found [here for holistic features](feature_engineering/feature_selection/3_variance_threshold_holistic.ipynb) and [here for n-gram features](feature_engineering/feature_selection/3_variance_threshold_n-grams.ipynb).
+
+### LASSO (L1) Regularization Feature Selection for Decade and Genre
+
+Lasso, or Least Absolute Shrinkage and Selection Operator, uses L1 regularization, which adds a penalty based on the absolute value of each feature’s coefficient. These coefficients represent how much each feature contributes to predicting the target. By applying this penalty, Lasso pushes the coefficients of less important features toward zero. We used the resulting coefficients to create CSV files containing feature importance scores for each target variable.
+
+<p align="center">
+  <img src="feature_engineering/feature_selection/figures/lasso_decade.png" width="500" alt="LASSO Decade" />
+  <img src="feature_engineering/feature_selection/figures/lasso_genre.png" width="500" alt="LASSO Genre" />
+</p>
+
+Presented above are two plots that show the top 20 features for predicting decade and genre. We can see that the top two features are the same for both: the measure of how much four sequential pairs of chords overlap in notes (average overlap-4) and the fraction of chords in a song that are minor triads (min triad ratio). The rest of the features vary where for Genre we see the holistic features as more important, and for decade we see a combination of holistic and n-gram features.
+
+The notebook performing LASSO (L1) regularization for decade and genre can be found [here](feature_engineering/feature_selection/4_lasso_L1_regularization_main.ipynb).
+
+### Feature Selection for Hot 100
+
 We first conducted a multicollinearity analysis with correlation matrices to determine whether features should be further reduced. This analysis found several features with high multicollinearity (greater than 0.7); to account for this, we ran a loop that would systematically remove features that contribute greatly to collinearity until all pairs were no longer highly correlated. 
 
 We then conducted a multi-step feature selection process on our dataset with both the full feature list and the reduced feature list. This involved variance threshold assessment, random forest feature importance, and LASSO (L1 regularization) regression with cross-validation. This initial process identified potential issues that needed to be addressed, including class imbalance of the hot_100 target and low performance of classifier models when compared to baseline (guess highest occuring class of genre and decade). Trends remained very similar whether we assessed the full or reduced feature lists.
+
+The most important features for the top 100 target were mostly holistic, with drone ratio as the most important feature.
 
 ## Modeling
 
 ### Hot 100
 
 ### Decade
+
+We trained several models on our training set to predict decade by using 5-fold stratified cross validation with grid search hyperparameter optimization and found that the most accurate model was XGBoost with 50 estimators and a max depth of 4. The out-of-fold training and test set accuracies were 43.4% and 43.5% respectively. This was only marginally better than the out-of-fold training accuracy for all the other models tested and the baseline dummy classifier which predicts the most common decade only (42.7% accuracy). Given the hamronic features we came up with, it was not possible to use this dataset to predict release decade chord progression.
 
 ### Genre
 

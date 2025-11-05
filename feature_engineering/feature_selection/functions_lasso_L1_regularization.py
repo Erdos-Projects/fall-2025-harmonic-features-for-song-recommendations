@@ -10,7 +10,37 @@ import numpy as np
 
 
 def run_classification_lasso(data, predictor_columns, target_column, output_path, is_binary=False, k=5, savefile=True):
-    """Run Lasso (L1) classification with k-fold cross-validation and return feature importance."""
+    """
+    Run Lasso (L1) regularized logistic regression with k-fold cross-validation for classification tasks.
+
+    Trains a logistic regression model with L1 penalty using stratified k-fold cross-validation,
+    evaluates performance, and identifies important features based on absolute coefficients.
+    Generates confusion matrix, classification report, and feature importance visualizations.
+
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Input dataset containing both features and target variable.
+    predictor_columns : list of str
+        Column names to use as predictor features for the model.
+    target_column : str
+        Column name of the target variable to predict.
+    output_path : pathlib.Path or str
+        Directory path where feature importance CSV file will be saved.
+    is_binary : bool, optional
+        Whether the classification task is binary (True) or multi-class (False).
+        Affects how coefficients are aggregated for feature importance. Default is False.
+    k : int, optional
+        Number of folds for cross-validation. Default is 5.
+    savefile : bool, optional
+        Whether to save feature importance results to a CSV file. Default is True.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame containing feature names and their importance scores (absolute coefficients),
+        sorted in descending order of importance.
+    """
 
     # Prepare data
     X = data[predictor_columns]
@@ -101,7 +131,34 @@ def run_classification_lasso(data, predictor_columns, target_column, output_path
 
 
 def run_regression_lasso(data, predictor_columns, target_column, output_path, k=5, savefile=True):
-    """Run Lasso (L1) regression with k-fold cross-validation and return feature importance."""
+    """
+    Run Lasso (L1) regularized regression with k-fold cross-validation for continuous target prediction.
+
+    Trains a Lasso regression model using k-fold cross-validation, evaluates performance with
+    regression metrics (R², RMSE, MAE), and identifies important features based on absolute coefficients.
+    Generates actual vs predicted scatter plot and feature importance visualizations.
+
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Input dataset containing both features and target variable.
+    predictor_columns : list of str
+        Column names to use as predictor features for the model.
+    target_column : str
+        Column name of the continuous target variable to predict.
+    output_path : pathlib.Path or str
+        Directory path where feature importance CSV file will be saved.
+    k : int, optional
+        Number of folds for cross-validation. Default is 5.
+    savefile : bool, optional
+        Whether to save feature importance results to a CSV file. Default is True.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame containing feature names and their importance scores (absolute coefficients),
+        sorted in descending order of importance.
+    """
 
     # Prepare data
     X = data[predictor_columns]
@@ -197,4 +254,3 @@ def run_regression_lasso(data, predictor_columns, target_column, output_path, k=
     plt.show()
 
     return feature_importance
-

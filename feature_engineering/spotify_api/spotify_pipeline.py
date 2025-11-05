@@ -17,7 +17,7 @@ import time
 import os
 
 
-def spotify_enrichment_pipeline_optimized(
+def spotify_enrichment_pipeline(
     input_file,
     output_dir="output",
     output_dir_final="output_final",
@@ -30,7 +30,7 @@ def spotify_enrichment_pipeline_optimized(
     resume=True
 ):
     """
-    Optimized pipeline to fetch Spotify data and enrich CSV
+    Pipeline to fetch Spotify data and enrich CSV
 
     Args:
         input_file: Path to input CSV with 'spotify_song_id' column
@@ -135,7 +135,7 @@ def spotify_enrichment_pipeline_optimized(
         track_ids = chunk_df['spotify_song_id'].tolist()
         print(f"  Extracted {len(track_ids)} track IDs from chunk")
 
-        # OPTIMIZATION 1: Batch fetch track info
+        # OPTIMIZATION: Batch fetch track info
         if get_track_info:
             print(f"\nFetching track info in batches of 50...")
             print(f"  Starting batch fetch at {time.strftime('%H:%M:%S')}")
@@ -149,7 +149,7 @@ def spotify_enrichment_pipeline_optimized(
             print(f"\nSkipping track info (disabled)")
             track_infos = [None] * len(track_ids)
 
-        # OPTIMIZATION 2: Batch fetch audio features
+        # OPTIMIZATION: Batch fetch audio features
         if get_audio_features:
             print(f"\nFetching audio features in batches of 100...")
             print(f"  Starting batch fetch at {time.strftime('%H:%M:%S')}")
@@ -163,7 +163,7 @@ def spotify_enrichment_pipeline_optimized(
             print(f"\nSkipping audio features (disabled)")
             audio_features = [None] * len(track_ids)
 
-        # OPTIMIZATION 3: Collect unique artist IDs and fetch them (with caching)
+        # OPTIMIZATION: Collect unique artist IDs and fetch them (with caching)
         if get_artist_info:
             print(f"\nCollecting unique artist IDs...")
             # Get all unique artist IDs from track info

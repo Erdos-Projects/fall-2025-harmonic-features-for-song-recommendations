@@ -122,7 +122,7 @@ class SpotifyHandler:
                 if hasattr(e, 'http_status') and e.http_status == 429:
                     # Rate limit hit
                     retry_after = int(e.headers.get('Retry-After', 5))
-                    print(f"    ⚠️  Rate limit on artist fetch! Waiting {retry_after} seconds...")
+                    print(f"Rate limit on artist fetch! Waiting {retry_after} seconds...")
                     time.sleep(retry_after)
                     if attempt < max_retries - 1:
                         continue
@@ -307,7 +307,7 @@ class SpotifyHandler:
                     if hasattr(e, 'http_status') and e.http_status == 429:
                         # Rate limit hit
                         retry_after = int(e.headers.get('Retry-After', 5))
-                        print(f"    ⚠️  Rate limit hit! Waiting {retry_after} seconds...")
+                        print(f"Rate limit hit! Waiting {retry_after} seconds...")
                         time.sleep(retry_after)
                         if attempt < max_retries - 1:
                             continue
@@ -315,7 +315,7 @@ class SpotifyHandler:
                     results.extend([None] * len(batch))
                     break
                 except Exception as e:
-                    print(f"    ⚠️  Batch error: {e}")
+                    print(f"Batch error: {e}")
                     # If batch fails, append None for each track in batch
                     results.extend([None] * len(batch))
                     break

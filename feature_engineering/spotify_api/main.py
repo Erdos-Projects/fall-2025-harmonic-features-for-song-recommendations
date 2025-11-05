@@ -1,5 +1,5 @@
 """
-Spotify Data Enrichment Pipeline - Optimized
+Spotify Data Enrichment Pipeline
 
 Processes song data in batches with checkpoints for efficiency and reliability.
 
@@ -10,12 +10,12 @@ Features:
 - Resume capability if interrupted
 
 Usage:
-    python main_optimized.py
+    python main.py
 
 Configuration can be modified in the Configuration section below.
 """
 
-from spotify_pipeline_optimized import spotify_enrichment_pipeline_optimized
+from spotify_pipeline import spotify_enrichment_pipeline
 
 
 def main():
@@ -26,10 +26,10 @@ def main():
     # ========================================
 
     # File paths
-    input_file = "chordonomicon_part_2.csv"
+    input_file = "chordonomicon.csv"
     output_dir = "output_spotify"
     output_dir_final = "output_spotify_final"
-    base_output_name = "chordonomicon_part_2_enriched"
+    base_output_name = "chordonomicon_enriched"
 
     # Processing options
     get_track_info = True       # Track name, album, release date, popularity
@@ -121,19 +121,6 @@ def main():
         display_cols = [col for col in display_cols if col in results_df.columns]
         if display_cols:
             print(results_df[display_cols].head().to_string())
-
-    # ========================================
-    # Policy Notice
-    # ========================================
-
-    print("\n" + "=" * 80)
-    print("IMPORTANT: Spotify Policy Notice")
-    print("=" * 80)
-    print("Spotify content may not be used to train machine learning")
-    print("or AI models. You cannot use the Spotify Platform or any")
-    print("Spotify Content to train ML/AI models or ingest Spotify")
-    print("Content into ML/AI models.")
-    print("=" * 80 + "\n")
 
     return results_df
 
