@@ -1,20 +1,10 @@
-chordonomicon.csv
-
-chordonomicon_part_1.csv
-chordonomicon_part_2.csv
-chordonomicon_part_1_enriched.csv
-chordonomicon_part_2_enriched.csv
-
 # ignore vscode files
 .DS_Store
 __pycache__
+.vscode
 
 # ignore pycharm files
 .idea
 
-# ignore cache file created by spotify when using the api
+# ignore cache file
 .cache
-
-# ignore spotify API output folders
-output_spotify/
-output_spotify_final/
