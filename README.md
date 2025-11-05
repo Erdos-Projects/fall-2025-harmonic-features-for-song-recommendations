@@ -132,7 +132,7 @@ Lasso, or Least Absolute Shrinkage and Selection Operator, uses L1 regularizatio
   <img src="feature_engineering/feature_selection/figures/lasso_genre.png" width="500" alt="LASSO Genre" />
 </p>
 
-Presented above are two plots that show the top 20 features for predicting decade and genre. We can see that the top two features are the same for both: the average overlap-4 and the fraction of chords in a song that are minor triads. The rest of the features vary where for Genre we see the holistic features as more important, and for decade we see a combination of holistic and n-gram features.
+Presented above are two plots that show the top 20 features for predicting decade and genre. We can see that the top two features are the same for both: the measure of how much four sequential pairs of chords overlap in notes (average overlap-4) and the fraction of chords in a song that are minor triads (min triad ratio). The rest of the features vary where for Genre we see the holistic features as more important, and for decade we see a combination of holistic and n-gram features.
 
 The notebook performing LASSO (L1) regularization for decade and genre can be found [here](feature_engineering/feature_selection/4_lasso_L1_regularization_main.ipynb).
 
