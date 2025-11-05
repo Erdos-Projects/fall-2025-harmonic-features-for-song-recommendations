@@ -1,5 +1,5 @@
 from sklearn.dummy import DummyClassifier, DummyRegressor
-from sklearn.model_selection import cross_validate, learning_curve
+from sklearn.model_selection import cross_validate
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.linear_model import Lasso, LogisticRegression, Ridge
 from sklearn.preprocessing import StandardScaler
@@ -25,7 +25,6 @@ def train_random_forest(X, y, cv, target_type='multiclass', n_estimators=100, ma
     Returns:
         dict: cross-validation results with metrics
     """
-
     target_type = target_type.lower()
     if target_type not in {'multiclass', 'binary', 'regression'}:
         raise ValueError("target_type must be one of 'multiclass', 'binary', 'regression'")
@@ -95,7 +94,6 @@ def train_lasso(X, y, cv, target_type='multiclass', alpha=1.0, max_iter=5000, ra
     Returns:
         dict: cross-validation results with metrics
     """
-
     target_type = target_type.lower()
     if target_type not in {'multiclass', 'binary', 'regression'}:
         raise ValueError("target_type must be one of 'multiclass', 'binary', 'regression'")
@@ -127,7 +125,7 @@ def train_lasso(X, y, cv, target_type='multiclass', alpha=1.0, max_iter=5000, ra
             scoring = ['accuracy', 'precision', 'recall', 'f1', 'roc_auc']
 
     if print_cv:
-        print(f"\n📐 Training Lasso...")
+        print(f"\n Training Lasso...")
         print(f"Cross-validation folds: {cv.get_n_splits()}")
 
     # Perform cross-validation
